@@ -5,6 +5,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 
 import postRoute from './routes/posts.js';
+import userRoute from './routes/users.js';
 
 const app = express();
 dotenv.config();
@@ -12,6 +13,7 @@ app.use(bodyParser.json({ limit: '30mb', extended: true }));
 app.use(bodyParser.urlencoded({ limmit: '30mb0', extended: true }));
 app.use(cors());
 app.use('/posts', postRoute);
+app.use('/users', userRoute);
 
 ('mongodb+srv://adnan:igeu98MRkP3iMB6@cluster0.nzhjq.mongodb.net/memoriesProject?retryWrites=true&w=majority');
 const PORT = process.env.PORT || 5000;
