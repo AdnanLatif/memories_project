@@ -11,6 +11,8 @@ import {
 
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { GoogleLogin } from 'react-google-login';
+import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import Icon from './Icon';
 import Input from './Input';
 
@@ -20,9 +22,22 @@ const Auth = () => {
   const classes = useStyles();
   const [showPassword, setShowPassword] = useState(false);
   const [isSignup, setIsSignup] = useState(false);
+  const dispatch = useDispatch();
+  const history = useHistory();
+
   const handleSubmit = () => {};
   const handleChange = () => {};
   const googleSuccess = async (res) => {
+    const result = res?.profileObj;
+    const token = res?.tokenId;
+
+    try {
+      dispatch({ type: 'AUTH', data: { result, token } });
+      history.push('/');
+    } catch (error) {
+      console.log(error);
+    }
+
     console.log(res);
   };
   const googleFailure = () => {
@@ -94,7 +109,7 @@ const Auth = () => {
             {isSignup ? 'Sign Up' : 'Sign In'}
           </Button>
           <GoogleLogin
-            clientId=''
+            clientId='20801287809-u3fkn66dpid66ebvo447gubabcdr077d.apps.googleusercontent.com'
             render={(renderProps) => (
               <Button
                 className={classes.googleButton}
