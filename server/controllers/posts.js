@@ -28,14 +28,12 @@ export const getPost = async (req, res) => {
 };
 
 export const createPost = async (req, res) => {
-  const { title, message, selectedFile, creator, tags } = req.body;
+  const post = req.body;
 
   const newPostMessage = new PostMessage({
-    title,
-    message,
-    selectedFile,
-    creator,
-    tags,
+    ...post,
+    creator: req.userId,
+    createdAt: new Date().toISOString(),
   });
 
   try {
@@ -84,19 +82,17 @@ export const likePost = async (req, res) => {
 
   const post = await PostMessage.findById(id);
 
-  const index = await post.likes.findById((id) => id === String(req.userId));
+  const index = post.likes.findIndex((id) => id === String(req.userId));
 
   if (index === -1) {
     post.likes.push(req.userId);
   } else {
     post.likes = post.likes.filter((id) => id !== String(req.userId));
   }
-
   const updatedPost = await PostMessage.findByIdAndUpdate(id, post, {
     new: true,
   });
-
-  res.json(updatedPost);
+  res.status(200).json(updatedPost);
 };
 
 export default router;
