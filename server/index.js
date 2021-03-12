@@ -16,7 +16,7 @@ app.use('/posts', postRoutes);
 app.use('/user', userRouter);
 
 const CONNECTION_URL =
-  'mongoDB URI';
+  'mongodb+srv://adnan:igeu98MRkP3iMB6@cluster0.nzhjq.mongodb.net/memoriesProject?retryWrites=true&w=majority';
 const PORT = process.env.PORT || 5000;
 
 mongoose
